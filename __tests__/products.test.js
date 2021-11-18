@@ -19,9 +19,16 @@ describe('products', () => {
       price: 199
     }
     const res = await request(app).get('/products/1')
-    console.log(res.body)
+
     expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject(expected)
+  })
+  it('POST /product should create 1 product', async () => {
+    const res = await request(app)
+      .post('/products')
+      .send({ id: 11, name: 'Clown makeup', price: 332 })
+    expect(res.statusCode).toBe(201)
+    expect(res.body).toMatchObject({ created: true })
   })
 })
 
@@ -29,13 +36,6 @@ describe('products', () => {
 
   })
 
-  it('GET /students/3 should get 1 student', async () => {
-    const mockDb = createMockDb(mockData)
-    const app = await createApp(mockDb)
-    const res = await request(app).get('/students/3')
-    expect(res.statusCode).toBe(200)
-    expect(res.body).toMatchObject({ _id: 3, name: 'Per', age: 57 })
-  })
 
   it('POST /students should create 1 student', async () => {
     const mockDb = createMockDb(mockData)
