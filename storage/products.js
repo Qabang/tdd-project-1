@@ -10,7 +10,7 @@ const data = [
     price: 225
   },
   {
-    _id: 3,
+    id: 3,
     name: 'Mascara',
     price: 205
   },
@@ -20,7 +20,7 @@ const data = [
     price: 145
   },
   {
-    _id: 5,
+    id: 5,
     name: 'Powder brush',
     price: 185
   },
@@ -35,7 +35,7 @@ const data = [
     price: 138
   },
   {
-    _id: 8,
+    id: 8,
     name: 'Makeup Bag',
     price: 285
   },

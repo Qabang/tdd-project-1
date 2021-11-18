@@ -13,10 +13,15 @@ describe('products', () => {
     expect(res.body.length).toBe(expected)
   })
   it('GET /product 1 items', async () => {
-    const expected = 1
+    const expected = {
+      id: 1,
+      name: 'Eyeliner',
+      price: 199
+    }
     const res = await request(app).get('/products/1')
+    console.log(res.body)
     expect(res.statusCode).toBe(200)
-    expect(res.body.length).toBe(expected)
+    expect(res.body).toMatchObject(expected)
   })
 })
 
