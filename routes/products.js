@@ -8,9 +8,10 @@ appProducts
     res.send(Products)
   })
   .get('/products/:id', async (req, res) => {
-    const id = req.params.id
+    const prodId = parseInt(req.params.id)
+
     try {
-      const Product = Products.find((item) => item.id === id)
+      const Product = Products.find(({ id }) => id === prodId)
       console.log(Product)
       res.send(Product)
     } catch (err) {
