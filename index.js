@@ -1,10 +1,13 @@
-import express from "express"
-const app = express()
+import express from 'express'
+import products from './routes/products.js'
 
-app.get("/", (req, res) => {
-  res.send("hej")
-})
+const app = express()
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
+app.use(products)
 
 app.listen(3000, () => {
-  console.log(`tjenare hejsan http://localhost:3000`)
+  console.log(`server is running on port 3000`)
 })
+
+export default app
