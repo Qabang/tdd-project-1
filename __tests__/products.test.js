@@ -14,11 +14,11 @@ describe('products', () => {
   })
   it('GET /product 1 items', async () => {
     const expected = {
-      id: 1,
-      name: 'Eyeliner',
-      price: 199
+      name: "Clown makeup",
+      price: 332
+
     }
-    const res = await request(app).get('/products/1')
+    const res = await request(app).get('/products/61966b89fda3abfe427e4d7b')
 
     expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject(expected)
@@ -26,8 +26,8 @@ describe('products', () => {
   it('POST /product should create 1 product', async () => {
     const res = await request(app)
       .post('/products')
-      .send({ id: 11, name: 'Clown makeup', price: 332 })
-    expect(res.statusCode).toBe(201)
+      .send({ name: 'Mascara Blue', price: 229 })
+    expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject({ created: true })
   })
 })

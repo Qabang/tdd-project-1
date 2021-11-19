@@ -45,7 +45,7 @@ appProduct
         "_id": (id)
       })
       res.send(deleteProduct)
-      res.status(200).send({ deleted: true })
+      res.status(201).send({ deleted: true })
     } catch (err) {
       console.error("Error DELETE /product", err)
       res.status(501).send(SERVER_ERROR)
