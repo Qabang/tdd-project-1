@@ -1,5 +1,5 @@
 import express from 'express'
-import Products from "../models/productsModel.js"
+import Products from '../models/productsModel.js'
 const appProduct = express.Router()
 
 appProduct.use(express.urlencoded({ extended: true }))
@@ -19,12 +19,20 @@ appProduct
     const id = req.params.id
     try {
       const product = await Products.findOne({
-        "_id": (id)
+        _id: id
       })
-      res.send(product)
+      if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+        res.send('ERROR')
+      }
+      console.log(Object.keys(product).length)
+      if (Object.keys(product).length === 0) {
+        res.send('ERROR')
+      } else {
+        res.send(product)
+      }
     } catch (err) {
-      console.error("Error GET /products/id", err)
-      res.status(501).send(SERVER_ERROR)
+      console.error('Error GET /products/id', err)
+      res.status(501).send('ERROR')
     }
   })
 
@@ -33,7 +41,7 @@ appProduct
 
     try {
       await product.save()
-      res.send(product)
+      res.send({ created: true })
     } catch (error) {
       res.status(500).send(error)
     }
@@ -42,12 +50,12 @@ appProduct
   .delete('/:id', async (req, res) => {
     try {
       const deleteProduct = await Products.deleteOne({
-        "_id": (id)
+        _id: id
       })
       res.send(deleteProduct)
       res.status(201).send({ deleted: true })
     } catch (err) {
-      console.error("Error DELETE /product", err)
+      console.error('Error DELETE /product', err)
       res.status(501).send(SERVER_ERROR)
     }
   })

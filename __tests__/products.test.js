@@ -12,15 +12,19 @@ describe('products', () => {
     expect(res.statusCode).toBe(200)
     expect(res.body.length).toBe(expected)
   })
-  it('GET /product 1 items', async () => {
+  it('GET /product 1 item', async () => {
     const expected = {
-      name: "Clown makeup",
+      name: 'Clown makeup',
       price: 332
-
     }
     const res = await request(app).get('/products/61966b89fda3abfe427e4d7b')
-
     expect(res.statusCode).toBe(200)
+    expect(res.body).toMatchObject(expected)
+  })
+  it('GET Error when product id is not valid', async () => {
+    const expected = 'ERROR'
+    const res = await request(app).get('/products/61966b89fda3abfe427e4d7q')
+    expect(res.statusCode).toBe(501)
     expect(res.body).toMatchObject(expected)
   })
   it('POST /product should create 1 product', async () => {
