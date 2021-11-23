@@ -16,8 +16,8 @@ describe('products', () => {
 
   it('GET /product 1 item', async () => {
     const expected = {
-      name: 'Clown makeup',
-      price: 332,
+      name: 'Mascara',
+      price: 199,
     }
     const res = await request(app).get('/products/61966b89fda3abfe427e4d7b')
     expect(res.statusCode).toBe(200)
@@ -48,8 +48,8 @@ describe('products', () => {
   })
   it('PUT 1 product, should change product', async () => {
     const res = await request(app)
-      .put('/products/61966b89fda3abfe427e4d7b')
-      .send({ name: 'Mascara Green', price: 159 })
+      .put('/products/61975d473917cea33c60c7bd')
+      .send({ name: 'Mascara green', price: 299 })
     expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject({ created: true })
   })
