@@ -72,11 +72,11 @@ describe('products', () => {
   })
 
   it('POST /product should create 1 product', async () => {
-    // const res = await request(app)
-    //   .post('/products')
-    //   .send({ name: 'Mascara Blue', price: 229 })
-    // expect(res.statusCode).toBe(200)
-    // expect(res.body).toMatchObject({ created: true })
+    const res = await request(app)
+      .post('/products')
+      .send({ name: 'Mascara Blue', price: 229 })
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toMatchObject({ created: true })
   })
 })
 
