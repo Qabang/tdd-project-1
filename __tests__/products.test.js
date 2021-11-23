@@ -24,47 +24,42 @@ describe('products', () => {
     expect(res.body).toMatchObject(expected)
   })
 
-  it('GET /product 1 item with non valid/non existing id', async () => {
-    let expected = { ERROR: 'ERROR NO MATCHING DOCUMENT' }
+  it('GET 1 product item with non valid id, expect ERROR', async () => {
+    let expected = { ERROR: 'ERROR NON VALID ID' }
     const res = await request(app).get('/products/619')
 
-    if (res.body.ERROR === 'ERROR NON VALID ID') {
-      expected.ERROR = 'ERROR NON VALID ID'
-    }
+    expect(res.statusCode).toBe(422)
+    expect(res.body).toMatchObject(expected)
+  })
+  it('GET 1 product item with non existing id, expect ERROR', async () => {
+    let expected = { ERROR: 'ERROR NO MATCHING DOCUMENT' }
+    const res = await request(app).get('/products/61966b89fda3abfe427e4d7c')
 
-    expect(res.statusCode).toBe(501)
+    expect(res.statusCode).toBe(404)
     expect(res.body).toMatchObject(expected)
   })
 
-  it('POST /product should create 1 product', async () => {
+  it('POST 1 product, should create 1 product', async () => {
     const res = await request(app)
       .post('/products')
       .send({ name: 'Mascara Blue', price: 229 })
     expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject({ created: true })
   })
-})
-
-/*describe('/students endpoints', () => {
-
-  })
-
-
-  it('POST /students should create 1 student', async () => {
-    const mockDb = createMockDb(mockData)
-    const app = await createApp(mockDb)
+  it('PUT 1 product, should change product', async () => {
     const res = await request(app)
-      .post('/students')
-      .send({ name: 'Penny', age: 32 })
-    expect(res.statusCode).toBe(201)
+      .put('/products/61966b89fda3abfe427e4d7b')
+      .send({ name: 'Mascara Green', price: 159 })
+    expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject({ created: true })
   })
+  it('DELETE 1 product, should delete 1 product', async () => {
 
-  it('DELETE /students should delete 1 student', async () => {
-    const mockDb = createMockDb(mockData)
-    const app = await createApp(mockDb)
-    const res = await request(app).delete('/students/3')
+    const res = await request(app).delete('/products/61975fb82d0435cca073b29d')
     expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject({ deleted: true })
   })
-})*/
+})
+
+
+
