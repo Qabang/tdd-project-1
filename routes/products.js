@@ -17,22 +17,25 @@ appProduct
 
   .get('/:id', async (req, res) => {
     const id = req.params.id
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      // No, it's not a valid ObjectId, do not proceed with `findById` call.
+      return res.status(501).send({ ERROR: 'ERROR NON VALID ID' })
+    }
+
     try {
       const product = await Products.findOne({
-        _id: id
+        _id: id,
       })
-      if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-        res.send('ERROR')
+
+      if (product === null || product === undefined) {
+        // We did not find a matching document throw error.
+        return res.status(501).send({ ERROR: 'ERROR NO MATCHING DOCUMENT' })
       }
-      console.log(Object.keys(product).length)
-      if (Object.keys(product).length === 0) {
-        res.send('ERROR')
-      } else {
-        res.send(product)
-      }
+
+      res.send(product)
     } catch (err) {
       console.error('Error GET /products/id', err)
-      res.status(501).send('ERROR')
+      res.status(501).send(err)
     }
   })
 
@@ -50,7 +53,7 @@ appProduct
   .delete('/:id', async (req, res) => {
     try {
       const deleteProduct = await Products.deleteOne({
-        _id: id
+        _id: id,
       })
       res.send(deleteProduct)
       res.status(201).send({ deleted: true })
