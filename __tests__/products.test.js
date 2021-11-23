@@ -33,7 +33,7 @@ describe('products', () => {
 
   it('get products', async () => {
     const res = await request(server)
-      .get('/products')
+      .get('/api/products')
       .then((response) => response)
     expect(res.statusCode).toBe(200)
   })
@@ -41,7 +41,7 @@ describe('products', () => {
   it('GET /product 10 items', async () => {
     const expected = 10
     const res = await request(server)
-      .get('/products')
+      .get('/api/products')
       .then((response) => response)
     expect(res.statusCode).toBe(200)
     expect(res.body.length).toBe(expected)
@@ -52,7 +52,9 @@ describe('products', () => {
       name: 'Mascara',
       price: 199,
     }
-    const res = await request(server).get('/products/61966b89fda3abfe427e4d7b')
+    const res = await request(server)
+      .get('/api/products/61966b89fda3abfe427e4d7b')
+      .then((response) => response)
     expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject(expected)
   })
