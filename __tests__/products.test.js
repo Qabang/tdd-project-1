@@ -49,57 +49,50 @@ describe('products', () => {
 
   it('GET /product 1 item', async () => {
     const expected = {
-      name: 'Clown makeup',
-      price: 332,
+      name: 'Mascara',
+      price: 199,
     }
     const res = await request(server).get('/products/61966b89fda3abfe427e4d7b')
     expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject(expected)
   })
 
-  it('GET /product 1 item with non valid/non existing id', async () => {
+  it('GET 1 product item with non valid id, expect ERROR', async () => {
+    let expected = { ERROR: 'ERROR NON VALID ID' }
+    const res = await request(server).get('/api/products/619')
+
+    expect(res.statusCode).toBe(422)
+    expect(res.body).toMatchObject(expected)
+  })
+  it('GET 1 product item with non existing id, expect ERROR', async () => {
     let expected = { ERROR: 'ERROR NO MATCHING DOCUMENT' }
-    let expectedStatusCode = 404
-    const res = await request(server).get('/products/619')
+    const res = await request(server).get(
+      '/api/products/61966b89fda3abfe427e4d7c'
+    )
 
-    if (res.body.ERROR === 'ERROR NON VALID ID') {
-      expected.ERROR = 'ERROR NON VALID ID'
-      expectedStatusCode = 422
-    }
-
-    expect(res.statusCode).toBe(expectedStatusCode)
+    expect(res.statusCode).toBe(404)
     expect(res.body).toMatchObject(expected)
   })
 
-  it('POST /product should create 1 product', async () => {
-    const res = await request(app)
-      .post('/products')
+  it('POST 1 product, should create 1 product', async () => {
+    const res = await request(server)
+      .post('/api/products')
       .send({ name: 'Mascara Blue', price: 229 })
     expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject({ created: true })
   })
-})
-
-/*describe('/students endpoints', () => {
-
-  })
-
-
-  it('POST /students should create 1 student', async () => {
-    const mockDb = createMockDb(mockData)
-    const app = await createApp(mockDb)
-    const res = await request(app)
-      .post('/students')
-      .send({ name: 'Penny', age: 32 })
-    expect(res.statusCode).toBe(201)
+  it('PUT 1 product, should change product', async () => {
+    const res = await request(server)
+      .put('/api/products/61975d473917cea33c60c7bd')
+      .send({ name: 'Mascara green', price: 299 })
+    expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject({ created: true })
   })
-
-  it('DELETE /students should delete 1 student', async () => {
-    const mockDb = createMockDb(mockData)
-    const app = await createApp(mockDb)
-    const res = await request(app).delete('/students/3')
+  it('DELETE 1 product, should delete 1 product', async () => {
+    const res = await request(server).delete(
+      '/api/products/61975fb82d0435cca073b29d'
+    )
     expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject({ deleted: true })
   })
-})*/
+})
