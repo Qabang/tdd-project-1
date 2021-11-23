@@ -1,15 +1,48 @@
 import request from 'supertest'
+import mongoose from 'mongoose'
 import app from '../index.js'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 describe('products', () => {
+  jest.setTimeout(10000)
+  let server = null
+
+  beforeEach((done) => {
+    server = app.listen(done)
+  })
+
+  afterEach((done) => {
+    server.close(done)
+  })
+
+  beforeAll(async () => {
+    await mongoose.connect(process.env.DB_CONNECTION_URL)
+
+    const db = mongoose.connection
+    db.on('error', console.error.bind(console, 'connection error: '))
+    db.once('open', function () {
+      done()
+    })
+  })
+
+  afterAll(async () => {
+    await mongoose.connection.close()
+  })
+
   it('get products', async () => {
-    const res = await request(app).get('/api/products')
+    const res = await request(server)
+      .get('/api/products')
+      .then((response) => response)
     expect(res.statusCode).toBe(200)
   })
 
   it('GET /product 10 items', async () => {
     const expected = 10
-    const res = await request(app).get('/api/products')
+    const res = await request(server)
+      .get('/api/products')
+      .then((response) => response)
     expect(res.statusCode).toBe(200)
     expect(res.body.length).toBe(expected)
   })
@@ -19,47 +52,49 @@ describe('products', () => {
       name: 'Mascara',
       price: 199,
     }
-    const res = await request(app).get('/api/products/61966b89fda3abfe427e4d7b')
+    const res = await request(server)
+      .get('/api/products/61966b89fda3abfe427e4d7b')
+      .then((response) => response)
     expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject(expected)
   })
 
   it('GET 1 product item with non valid id, expect ERROR', async () => {
     let expected = { ERROR: 'ERROR NON VALID ID' }
-    const res = await request(app).get('/api/products/619')
+    const res = await request(server).get('/api/products/619')
 
     expect(res.statusCode).toBe(422)
     expect(res.body).toMatchObject(expected)
   })
   it('GET 1 product item with non existing id, expect ERROR', async () => {
     let expected = { ERROR: 'ERROR NO MATCHING DOCUMENT' }
-    const res = await request(app).get('/api/products/61966b89fda3abfe427e4d7c')
+    const res = await request(server).get(
+      '/api/products/61966b89fda3abfe427e4d7c'
+    )
 
     expect(res.statusCode).toBe(404)
     expect(res.body).toMatchObject(expected)
   })
 
   it('POST 1 product, should create 1 product', async () => {
-    const res = await request(app)
+    const res = await request(server)
       .post('/api/products')
       .send({ name: 'Mascara Blue', price: 229 })
     expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject({ created: true })
   })
   it('PUT 1 product, should change product', async () => {
-    const res = await request(app)
+    const res = await request(server)
       .put('/api/products/61975d473917cea33c60c7bd')
       .send({ name: 'Mascara green', price: 299 })
     expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject({ created: true })
   })
   it('DELETE 1 product, should delete 1 product', async () => {
-
-    const res = await request(app).delete('/api/products/61975fb82d0435cca073b29d')
+    const res = await request(server).delete(
+      '/api/products/61975fb82d0435cca073b29d'
+    )
     expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject({ deleted: true })
   })
 })
-
-
-
