@@ -36,6 +36,14 @@ describe('users', () => {
       .then((response) => response)
     expect(res.statusCode).toBe(200)
   })
+  it('GET /api/users 10 items', async () => {
+    const expected = 10
+    const res = await request(server)
+      .get('/api/users')
+      .then((response) => response)
+    expect(res.statusCode).toBe(200)
+    expect(res.body.length).toBe(expected)
+  })
   it('GET /users 1 item', async () => {
     const expected = {
       name: "sara",
@@ -60,7 +68,7 @@ describe('users', () => {
   it('POST 1 user, should create 1 user', async () => {
     const res = await request(server)
       .post('/api/users')
-      .send({ name: 'Sofia', login: 'hej123' })
+      .send({ name: 'Zeljko', login: 'hej435' })
     expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject({ created: true })
   })
