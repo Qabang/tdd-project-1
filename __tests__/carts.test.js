@@ -32,14 +32,25 @@ describe('products', () => {
   })
   it('get carts', async () => {
     const res = await request(server)
-      .get('/api/carts')
+      .get('/api/carts/lundstrom')
       .then((response) => response)
     expect(res.statusCode).toBe(200)
   })
+  // it('GET /api/carts 5 items', async () => {
+  //   const expected = 5
+  //   const res = await request(server)
+  //     .get('/api/carts')
+  //     .then((response) => response)
+  //   expect(res.statusCode).toBe(200)
+  //   expect(res.body.length).toBe(expected)
+  // })
   it('POST 1 item, should create 1 item in carts', async () => {
     const res = await request(server)
-      .post('/api/carts')
-      .send({ productId: '619cf9e3d7d2df81b5c85225', amount: 5 })
+      .post('/api/carts/')
+      .send({
+        userLogin: 'lundstrom',
+        productId: '619cf9e3d7d2df81b5c85225', amount: 1
+      })
     expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject({ created: true })
   })

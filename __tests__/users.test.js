@@ -68,13 +68,13 @@ describe('users', () => {
   it('POST 1 user, should create 1 user', async () => {
     const res = await request(server)
       .post('/api/users')
-      .send({ name: 'Zeljko', login: 'hej435' })
+      .send({ name: 'Stefan', login: 'testUser' })
     expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject({ created: true })
   })
   it('DELETE 1 user, should delete 1 user', async () => {
     const res = await request(server).delete(
-      '/api/users/hej123'
+      '/api/users/testUser'
     )
     expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject({ deleted: true })

@@ -2,6 +2,10 @@ import mongoose from 'mongoose'
 
 const CartSchema = new mongoose.Schema(
   {
+    userLogin: {
+      type: String,
+      required: true
+    },
     productId: {
       type: String,
       required: true
