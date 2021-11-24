@@ -44,6 +44,19 @@ appUsers
       res.status(500).send(error)
     }
   })
+  .delete('/:login', async (req, res) => {
+    const login = req.params.login
+    try {
+      const deleteUser = await Users.deleteOne({
+        login: login,
+      })
+
+      res.status(200).send({ deleted: true })
+    } catch (err) {
+      console.error('Error DELETE /product', err)
+      res.status(501).send('SERVER ERROR')
+    }
+  })
 
 
 export default appUsers

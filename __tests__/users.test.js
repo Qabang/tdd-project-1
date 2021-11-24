@@ -64,4 +64,11 @@ describe('users', () => {
     expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject({ created: true })
   })
+  it('DELETE 1 user, should delete 1 user', async () => {
+    const res = await request(server).delete(
+      '/api/users/hej123'
+    )
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toMatchObject({ deleted: true })
+  })
 })
