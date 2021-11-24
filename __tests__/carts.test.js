@@ -5,7 +5,7 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-describe('products', () => {
+describe('carts', () => {
   jest.setTimeout(10000)
   let server = null
 
@@ -31,7 +31,7 @@ describe('products', () => {
     await mongoose.connection.close()
   })
 
-  it('get carts', async () => {
+  it('GET /api/carts/, should show all items in carts', async () => {
     const res = await request(server)
       .get('/api/carts/lundstrom')
       .then((response) => response)
