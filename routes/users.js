@@ -15,8 +15,35 @@ appUsers
       res.status(500).send(error)
     }
   })
+  .get('/:login', async (req, res) => {
+    const login = req.params.login
+    console.log(login)
+    try {
+      const user = await Users.findOne({
+        login: login,
+      })
 
+      if (user === null || user === undefined) {
+        // We did not find a matching document throw error.
+        return res.status(404).send({ ERROR: 'ERROR NO MATCHING DOCUMENT' })
+      }
 
+      res.send(user)
+    } catch (err) {
+      console.error('Error GET /users/login', err)
+      res.status(501).send(err)
+    }
+  })
+  .post('/', async (req, res) => {
+    const user = new Users(req.body)
+
+    try {
+      await user.save()
+      res.send({ created: true })
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  })
 
 
 export default appUsers
