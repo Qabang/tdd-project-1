@@ -30,7 +30,7 @@ describe('users', () => {
     await mongoose.connection.close()
   })
 
-  it('GET all /api/users', async () => {
+  it('GET all /api/users, should return 200 response', async () => {
     const res = await request(server)
       .get('/api/users')
       .then((response) => response)
@@ -44,7 +44,7 @@ describe('users', () => {
     expect(res.statusCode).toBe(200)
     expect(res.body.length).not.toBeLessThan(expected)
   })
-  it('GET /api/users/:login, should get 1 item', async () => {
+  it('GET /api/users/:login, should get 1 user', async () => {
     const expected = {
       name: "sara",
       login: "lundstrom"

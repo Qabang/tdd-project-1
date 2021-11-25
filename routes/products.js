@@ -59,7 +59,7 @@ appProduct
     })
 
     try {
-      res.send({ created: true })
+      res.send({ changed: true })
     } catch (error) {
       res.status(500).send(error)
     }

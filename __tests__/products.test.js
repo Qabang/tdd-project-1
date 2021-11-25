@@ -31,7 +31,7 @@ describe('products', () => {
     await mongoose.connection.close()
   })
 
-  it('GET all /api/products', async () => {
+  it('GET /api/products, should return 200 response', async () => {
     const res = await request(server)
       .get('/api/products')
       .then((response) => response)
@@ -47,7 +47,7 @@ describe('products', () => {
     expect(res.body.length).not.toBeLessThan(expected)
   })
 
-  it('GET /api/products/:id 1 item from products', async () => {
+  it('GET /api/products/:id, should get 1 item from products', async () => {
     const expected = {
       name: 'Mascara',
       price: 199,
@@ -88,7 +88,7 @@ describe('products', () => {
       .put('/api/products/61975d473917cea33c60c7bd')
       .send({ name: 'Mascara green', price: 299 })
     expect(res.statusCode).toBe(200)
-    expect(res.body).toMatchObject({ created: true })
+    expect(res.body).toMatchObject({ changed: true })
   })
   it('DELETE /api/products/:id, should delete 1 product', async () => {
     const res = await request(server).delete(

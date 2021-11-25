@@ -31,7 +31,7 @@ describe('carts', () => {
     await mongoose.connection.close()
   })
 
-  it('GET /api/carts/, should show all items in carts', async () => {
+  it('GET /api/carts/, should return 200 response', async () => {
     const res = await request(server)
       .get('/api/carts')
       .then((response) => response)
@@ -66,7 +66,7 @@ describe('carts', () => {
       .put('/api/carts/lundstrom/619e0cc8863bf6db59b3baa2')
       .send({ productId: '61975e7b5e0a4a28e7b3229e', amount: 15 })
     expect(res.statusCode).toBe(200)
-    expect(res.body).toMatchObject({ created: true })
+    expect(res.body).toMatchObject({ changed: true })
   })
 
   it('DELETE /api/carts/:userLogin/:itemId 1 item, should delete 1 item from the user "lundstrom"', async () => {
