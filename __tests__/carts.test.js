@@ -33,7 +33,7 @@ describe('carts', () => {
 
   it('GET /api/carts/, should show all items in carts', async () => {
     const res = await request(server)
-      .get('/api/carts/lundstrom')
+      .get('/api/carts')
       .then((response) => response)
 
     expect(res.statusCode).toBe(200)
@@ -49,7 +49,7 @@ describe('carts', () => {
     expect(res.body.length).toBe(expected)
   })
 
-  it('POST 1 item, should create 1 item in carts of user with userlogin "lundstrom"', async () => {
+  it('POST /api/carts/:userLogin 1 item, should create 1 item in carts of user with userlogin "lundstrom"', async () => {
     const expected = { created: true }
 
     const res = await request(server).post('/api/carts/lundstrom').send({
@@ -61,8 +61,15 @@ describe('carts', () => {
     expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject(expected)
   })
+  it('PUT /api/carts/:userLogin/:itemId, should change 1 item', async () => {
+    const res = await request(server)
+      .put('/api/carts/lundstrom/619e0cc8863bf6db59b3baa2')
+      .send({ productId: '61975e7b5e0a4a28e7b3229e', amount: 15 })
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toMatchObject({ created: true })
+  })
 
-  it('DELETE 1 cart, should delete 1 cart from the user "lundstrom"', async () => {
+  it('DELETE /api/carts/:userLogin/:itemId 1 item, should delete 1 item from the user "lundstrom"', async () => {
     const cartId = '619e191f5729aa977f436398'
     const res = await request(server).delete(`/api/carts/lundstrom/${cartId}`)
     expect(res.statusCode).toBe(200)

@@ -39,6 +39,22 @@ appCarts
       res.status(500).send(error)
     }
   })
+  // Change one item in the cart for the user.
+  .put('/:userLogin/:itemId', async (req, res) => {
+    const { userLogin, itemId } = req.params
+    await Carts.updateOne({ _id: itemId, userLogin: userLogin }, {
+      $set: {
+        productId: req.body.productId,
+        amount: req.body.amount
+      }
+    })
+
+    try {
+      res.send({ created: true })
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  })
 
   // Delete one item from the cart for the user.
   .delete('/:userLogin/:itemId', async (req, res) => {

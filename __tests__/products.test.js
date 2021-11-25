@@ -38,13 +38,13 @@ describe('products', () => {
     expect(res.statusCode).toBe(200)
   })
 
-  it('GET /api/product 10 items', async () => {
-    const expected = 10
+  it('GET /api/product should get a minimum of one item', async () => {
+    const expected = 0
     const res = await request(server)
       .get('/api/products')
       .then((response) => response)
     expect(res.statusCode).toBe(200)
-    expect(res.body.length).toBe(expected)
+    expect(res.body.length).not.toBeLessThan(expected)
   })
 
   it('GET /api/products/:id 1 item from products', async () => {

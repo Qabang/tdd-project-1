@@ -50,9 +50,7 @@ appProduct
     }
   })
   .put('/:id', async (req, res) => {
-    const item = await Products.findOne({
-      _id: req.params.id,
-    })
+
     const product = await Products.updateOne({ _id: req.params.id }, {
       $set: {
         name: req.body.name,

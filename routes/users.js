@@ -17,7 +17,7 @@ appUsers
   })
   .get('/:login', async (req, res) => {
     const login = req.params.login
-    console.log(login)
+
     try {
       const user = await Users.findOne({
         login: login,
